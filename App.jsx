@@ -685,10 +685,10 @@ function App() {
   }, []);
 
   const Route = ({ isFatch }) => {
-    //if (!aceptTransperency || !completeLink) {
-    //  // Показуємо тільки лоудери, поки acceptTransparency не true
-    //  return null;
-    //}
+    if (!aceptTransperency || !completeLink) {
+      // Показуємо тільки лоудери, поки acceptTransparency не true
+      return null;
+    }
 
     if (isFatch) {
       return (
