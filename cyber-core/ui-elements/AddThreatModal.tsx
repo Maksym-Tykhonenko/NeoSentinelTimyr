@@ -51,17 +51,17 @@ const AddThreatModal: React.FC<AddThreatModalProps> = ({
 
   const handleSave = () => {
     if (!title.trim()) {
-      Alert.alert('Error', 'Please enter a title for the threat');
+      Alert.alert('Error', 'Please enter a title for the tip');
       return;
     }
 
     if (!description.trim()) {
-      Alert.alert('Error', 'Please enter a description for the threat');
+      Alert.alert('Error', 'Please enter details for the tip');
       return;
     }
 
     if (!category.trim()) {
-      Alert.alert('Error', 'Please select a category for the threat');
+      Alert.alert('Error', 'Please select a category for the tip');
       return;
     }
 
@@ -72,7 +72,7 @@ const AddThreatModal: React.FC<AddThreatModalProps> = ({
       category: category.trim(),
       timestamp: new Date(),
       isResolved: false,
-      source: source.trim() || 'Manual Entry',
+      source: source.trim() || 'Manual entry',
     });
 
     // Reset form
@@ -105,30 +105,30 @@ const AddThreatModal: React.FC<AddThreatModalProps> = ({
           <TouchableOpacity onPress={handleClose} style={styles.closeButton}>
             <Text style={{fontSize: 24, color: COLORS.text}}>✕</Text>
           </TouchableOpacity>
-          <Text style={styles.title}>New Threat Alert</Text>
+          <Text style={styles.title}>New Tip</Text>
           <View style={styles.placeholder} />
         </View>
 
         <View style={styles.content}>
           <View style={styles.inputGroup}>
-            <Text style={styles.label}>Threat Title</Text>
+            <Text style={styles.label}>Tip Title</Text>
             <TextInput
               style={styles.input}
               value={title}
               onChangeText={setTitle}
-              placeholder="e.g. Suspicious Login Attempt"
+              placeholder="e.g. Strengthening TLS Configuration"
               placeholderTextColor={COLORS.textTertiary}
               autoCapitalize="words"
             />
           </View>
 
           <View style={styles.inputGroup}>
-            <Text style={styles.label}>Description</Text>
+            <Text style={styles.label}>Details</Text>
             <TextInput
               style={[styles.input, styles.descriptionInput]}
               value={description}
               onChangeText={setDescription}
-              placeholder="Describe the threat in detail..."
+              placeholder="Describe the tip, context, and best practices..."
               placeholderTextColor={COLORS.textTertiary}
               multiline
               numberOfLines={4}
@@ -137,7 +137,7 @@ const AddThreatModal: React.FC<AddThreatModalProps> = ({
           </View>
 
           <View style={styles.inputGroup}>
-            <Text style={styles.label}>Severity Level</Text>
+            <Text style={styles.label}>Relevance Level</Text>
             <View style={styles.severityContainer}>
               {severityOptions.map((option) => (
                 <TouchableOpacity
@@ -191,7 +191,7 @@ const AddThreatModal: React.FC<AddThreatModalProps> = ({
               style={styles.input}
               value={source}
               onChangeText={setSource}
-              placeholder="e.g. Security System, Antivirus Scanner"
+              placeholder="e.g. Security article, Analyst note"
               placeholderTextColor={COLORS.textTertiary}
               autoCapitalize="words"
             />
@@ -200,7 +200,7 @@ const AddThreatModal: React.FC<AddThreatModalProps> = ({
 
         <View style={styles.footer}>
           <GradientBorderButton
-            title="Add Threat Alert"
+            title="Add Tip"
             onPress={handleSave}
           />
         </View>

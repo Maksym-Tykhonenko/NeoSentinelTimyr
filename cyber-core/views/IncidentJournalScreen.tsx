@@ -33,18 +33,6 @@ const IncidentJournalScreen: React.FC = () => {
       incidentType: 'Unauthorized Access',
     },
     {
-      id: '2',
-      title: 'Malware Quarantine',
-      description: 'Suspicious file detected and automatically quarantined before execution.',
-      category: 'Malware Protection',
-      severity: 'medium',
-      status: 'investigating',
-      timestamp: new Date(Date.now() - 172800000),
-      resolution: 'File quarantined, system scan completed, no additional threats found',
-      affectedSystems: ['Workstation-001', 'File Server'],
-      incidentType: 'Malware Detection',
-    },
-    {
       id: '3',
       title: 'Network Intrusion Detected',
       description: 'Unusual network traffic patterns detected indicating potential intrusion attempt.',
@@ -214,10 +202,7 @@ const IncidentJournalScreen: React.FC = () => {
             <Text style={styles.detailLabel}>Affected Systems:</Text>
             <Text style={styles.detailValue}>{item.affectedSystems.join(', ')}</Text>
           </View>
-          <View style={styles.detailRow}>
-            <Text style={styles.detailLabel}>Time:</Text>
-            <Text style={styles.detailValue}>{formatTimestamp(item.timestamp)}</Text>
-          </View>
+        
         </View>
         
         {item.resolution && (

@@ -4,15 +4,13 @@ import {
   Text,
   StyleSheet,
   FlatList,
-  TouchableOpacity,
-  Alert,
   RefreshControl,
   Image,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {COLORS, SPACING, BORDER_RADIUS, FONT_SIZES, FONT_WEIGHTS} from '../config/colors';
 import {ThreatAlert} from '../data-models';
-import GradientBorderButton from '../ui-elements/GradientBorderButton';
+// import removed: GradientBorderButton no longer used on this screen
 
 const ThreatMonitoringScreen: React.FC = () => {
   const [threats, setThreats] = useState<ThreatAlert[]>([]);
@@ -22,33 +20,24 @@ const ThreatMonitoringScreen: React.FC = () => {
   const defaultThreats: ThreatAlert[] = [
     {
       id: '1',
-      title: 'Suspicious Login Attempt',
-      description: 'Multiple failed login attempts detected from unknown IP address',
+      title: 'Suspicious Login Attempts: What They Are and How to Spot Them',
+      description: 'This is a common security topic for awareness and learning. It does not imply this issue exists on your device.',
       severity: 'high',
       category: 'Authentication',
       timestamp: new Date(),
       isResolved: false,
-      source: 'Security System',
+      source: 'Security Article',
     },
-    {
-      id: '2',
-      title: 'Malware Detection',
-      description: 'Potential malware signature detected in downloaded file',
-      severity: 'critical',
-      category: 'Malware',
-      timestamp: new Date(Date.now() - 3600000),
-      isResolved: false,
-      source: 'Antivirus Scanner',
-    },
+    
     {
       id: '3',
-      title: 'Network Anomaly',
-      description: 'Unusual network traffic pattern detected',
+      title: 'Network Anomalies: Examples and Analysis',
+      description: 'This is a common security topic for awareness and learning. It does not imply this issue exists on your device.',
       severity: 'medium',
       category: 'Network',
       timestamp: new Date(Date.now() - 7200000),
       isResolved: true,
-      source: 'Network Monitor',
+      source: 'Monitoring Guide',
     },
   ];
 
@@ -84,33 +73,7 @@ const ThreatMonitoringScreen: React.FC = () => {
     }
   };
 
-  const handleResolveThreat = (id: string) => {
-    const updatedThreats = threats.map(threat => {
-      if (threat.id === id) {
-        return {...threat, isResolved: true};
-      }
-      return threat;
-    });
-    saveThreats(updatedThreats);
-  };
-
-  const handleDeleteThreat = (id: string) => {
-    Alert.alert(
-      'Delete Threat Alert',
-      'Are you sure you want to delete this threat alert?',
-      [
-        {text: 'Cancel', style: 'cancel'},
-        {
-          text: 'Delete',
-          style: 'destructive',
-          onPress: () => {
-            const updatedThreats = threats.filter(threat => threat.id !== id);
-            saveThreats(updatedThreats);
-          },
-        },
-      ]
-    );
-  };
+  // интерактивные действия скрыты, так как это раздел со статьями/материалами
 
   const onRefresh = async () => {
     setRefreshing(true);
@@ -168,27 +131,13 @@ const ThreatMonitoringScreen: React.FC = () => {
             </Text>
             <Text style={styles.threatTitle}>{item.title}</Text>
           </View>
-          <View style={styles.threatActions}>
-            {!item.isResolved && (
-              <TouchableOpacity
-                onPress={() => handleResolveThreat(item.id)}
-                style={styles.resolveButton}>
-                <Text style={styles.resolveButtonText}>Resolve</Text>
-              </TouchableOpacity>
-            )}
-            <TouchableOpacity
-              onPress={() => handleDeleteThreat(item.id)}
-              style={styles.deleteButton}>
-              <Text style={styles.deleteButtonText}>Delete</Text>
-            </TouchableOpacity>
-          </View>
         </View>
         
         <Text style={styles.threatDescription}>{item.description}</Text>
         
         <View style={styles.threatInfo}>
           <View style={styles.infoRow}>
-            <Text style={styles.infoLabel}>Severity:</Text>
+            <Text style={styles.infoLabel}>Relevance:</Text>
             <Text style={[styles.infoValue, {color: severityColor}]}>
               {item.severity.toUpperCase()}
             </Text>
@@ -201,16 +150,7 @@ const ThreatMonitoringScreen: React.FC = () => {
             <Text style={styles.infoLabel}>Source:</Text>
             <Text style={styles.infoValue}>{item.source}</Text>
           </View>
-          <View style={styles.infoRow}>
-            <Text style={styles.infoLabel}>Time:</Text>
-            <Text style={styles.infoValue}>{formatTimestamp(item.timestamp)}</Text>
-          </View>
-          <View style={styles.infoRow}>
-            <Text style={styles.infoLabel}>Status:</Text>
-            <Text style={[styles.infoValue, {color: item.isResolved ? COLORS.success : COLORS.warning}]}>
-              {item.isResolved ? 'Resolved' : 'Active'}
-            </Text>
-          </View>
+          
         </View>
       </View>
     );
@@ -219,42 +159,18 @@ const ThreatMonitoringScreen: React.FC = () => {
   const renderEmptyState = () => (
     <View style={styles.emptyState}>
       <Image source={require('../media-resources/media-assets/1.png')} style={{width: 180, height: 180}} />
-      <Text style={styles.emptyStateTitle}>No Threats Detected</Text>
+      <Text style={styles.emptyStateTitle}>Threat Monitoring Materials</Text>
       <Text style={styles.emptyStateDescription}>
-        Your system is currently secure. Threat monitoring is active and will alert you to any security issues.
+        Examples and explanations of what can appear in security monitoring. This is educational content and is not tied to your device.
       </Text>
-      <GradientBorderButton
-        title="Run Security Scan"
-        onPress={() => {
-          // Simulate security scan
-          Alert.alert('Security Scan', 'Scan completed. No new threats detected.');
-        }}
-      />
     </View>
   );
 
-  const activeThreats = threats.filter(threat => !threat.isResolved);
-  const criticalThreats = activeThreats.filter(threat => threat.severity === 'critical');
+  // статистика скрыта, так как экран носит информативный характер
 
   return (
     <View style={styles.container}>
-      {threats.length > 0 && (
-        <View style={styles.statsContainer}>
-          <View style={styles.statCard}>
-            <Text style={styles.statNumber}>{activeThreats.length}</Text>
-            <Text style={styles.statLabel}>Active Threats</Text>
-          </View>
-          <View style={styles.statCard}>
-            <Text style={[styles.statNumber, {color: COLORS.error}]}>{criticalThreats.length}</Text>
-            <Text style={styles.statLabel}>Critical</Text>
-          </View>
-          <View style={styles.statCard}>
-            <Text style={[styles.statNumber, {color: COLORS.success}]}>{threats.filter(t => t.isResolved).length}</Text>
-            <Text style={styles.statLabel}>Resolved</Text>
-          </View>
-        </View>
-      )}
-      
+      {/***/}
       <FlatList
         data={threats}
         renderItem={renderThreat}
@@ -264,7 +180,7 @@ const ThreatMonitoringScreen: React.FC = () => {
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
-      />
+      /> 
     </View>
   );
 };
